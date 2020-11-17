@@ -49,6 +49,7 @@ jobs:
     - name: Modify Dockerfile
       if: ${{ github.event_name == 'repository_dispatch'}}
       run: |
+           BUILDLEVEL=cl$(echo ${{ github.event.client_payload.dev-build }} | awk -F '.zip' '{print $1}' | awk -F 'cl' '{print $2}')
            sed -i "s;FROM openliberty/open-liberty:kernel-java8-openj9-ubi;FROM $DOCKER_USERNAME/olguides:$BUILDLEVEL;g" Dockerfile
            cat Dockerfile
     - name: Docker log in
